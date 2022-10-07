@@ -16,7 +16,7 @@
  * Plugin Name:       WP Updater
  * Plugin URI:        https://juzhax.com
  * Description:       A plugin for Wordpress to update from GitHub with personal access token
- * Version:           1.0.3
+ * Version:           1.0.4
  * Author:            juzhax
  * Author URI:        https://juzhax.com
  * License:           GPL-2.0+
@@ -45,8 +45,8 @@ if ( is_admin() ) {
         // $updater->authorize($settings['password']);
         // $updater->initialize();
 
-        if( ! class_exists( 'Smashing_Updater' ) ){
-            include_once( plugin_dir_path( __FILE__ ) . 'updater.php' );
+        if( ! class_exists( 'Sm_Updater' ) ){
+            include_once( plugin_dir_path( __FILE__ ) . 'sm-updater.php' );
         }
         
         $updater = new Sm_Updater( __FILE__ );
