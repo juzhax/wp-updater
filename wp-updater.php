@@ -36,12 +36,23 @@ if ( is_admin() ) {
     // $this->repo = $settings['git'];
     // $this->access_token = $settings['password'];
     if (isset($settings['password']) && $settings['password']) {
-        require_once plugin_dir_path( __FILE__ ) . 'updater.php';
-        $updater = new Wp_Updater(__FILE__);
+        // require_once plugin_dir_path( __FILE__ ) . 'updater.php';
+        // $updater = new Wp_Updater(__FILE__);
+        // $updater->set_username( 'juzhax' );
+        // $updater->set_repository( 'wp-updater' );
+        // $updater->set_settings();
+        // $updater->authorize($settings['password']);
+        // $updater->initialize();
+
+
+        if( ! class_exists( 'Smashing_Updater' ) ){
+            include_once( plugin_dir_path( __FILE__ ) . 'updater.php' );
+        }
+        
+        $updater = new Sm_Updater( __FILE__ );
         $updater->set_username( 'juzhax' );
         $updater->set_repository( 'wp-updater' );
-        $updater->set_settings();
-        $updater->authorize($settings['password']);
-        $updater->initialize();
+        $updater->authorize( $settings['password'] ); // Your auth code goes here for private repos
+        $updater->initialize();        
     } 
 }
