@@ -16,7 +16,7 @@
  * Plugin Name:       WP Updater
  * Plugin URI:        https://juzhax.com
  * Description:       A plugin for Wordpress to update from GitHub with personal access token
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            juzhax
  * Author URI:        https://juzhax.com
  * License:           GPL-2.0+

@@ -75,7 +75,8 @@ class Wp_Updater {
 	public function initialize() {
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'modify_transient' ), 10, 1 );
 		add_filter( 'plugins_api', array( $this, 'plugin_popup' ), 10, 3);
-		add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
+		// add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
+		add_filter( 'upgrader_source_selection', [ $this, 'upgrader_source_selection' ], 10, 2 );
 		
 		// Add Authorization Token to download_package
 		add_filter( 'upgrader_pre_download',
@@ -168,18 +169,33 @@ class Wp_Updater {
 		return $args;
 	}
 
-	public function after_install( $response, $hook_extra, $result ) {
+	public function upgrader_source_selection( $source, $remote_source ) {
+		// $new_source = trailingslashit( $remote_source ) . dirname( $this->current_slug );
+		// $this->move_dir( $source, $new_source );
+
 		global $wp_filesystem; // Get global FS object
 
-		$install_directory = plugin_dir_path( $this->file ); // Our plugin directory
-		$wp_filesystem->move( $result['destination'], $install_directory ); // Move files to the plugin dir
-		$result['destination'] = $install_directory; // Set the destination for the rest of the stack
+		$new_source = plugin_dir_path( $this->file ); // Our plugin directory
+		$wp_filesystem->move( $source, $new_source ); // Move files to the plugin dir
 
-		if ( $this->active ) { // If it was active
-			activate_plugin( $this->basename ); // Reactivate
-		}
+		
 
-		return $result;
+		return trailingslashit( $new_source );
 	}
+
+
+	// public function after_install( $response, $hook_extra, $result ) {
+	// 	global $wp_filesystem; // Get global FS object
+
+	// 	$install_directory = plugin_dir_path( $this->file ); // Our plugin directory
+	// 	$wp_filesystem->move( $result['destination'], $install_directory ); // Move files to the plugin dir
+	// 	$result['destination'] = $install_directory; // Set the destination for the rest of the stack
+
+	// 	if ( $this->active ) { // If it was active
+	// 		activate_plugin( $this->basename ); // Reactivate
+	// 	}
+
+	// 	return $result;
+	// }
 
 }
